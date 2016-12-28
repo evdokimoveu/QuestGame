@@ -2,8 +2,12 @@
 package questgame;
 
 import java.io.File;
+import java.io.IOException;
+import static java.lang.Runtime.getRuntime;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import questgame.model.Action;
 import questgame.model.Var;
 
