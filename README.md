@@ -4,6 +4,7 @@ xml files need put into "game" folder
 
 
 XML format:
+```xml
 <file id="1" type="file" name="1_game.xml">
 <action id="1" type="action" text="">
 <var id="1" move_to="f1a2" damage="">some text</var>		
@@ -13,7 +14,7 @@ XML format:
 </action>
 <action id="-1" type="action" text=""/>
 </file>
-
+```
 
 Action without vars signals about game finish. 
 Vars id into one action must be unique.
