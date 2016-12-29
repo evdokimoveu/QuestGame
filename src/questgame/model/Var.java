@@ -17,7 +17,7 @@ public class Var {
     public Var() {
     }
 
-    public Var(String id, String text, String moveTo, String damage, String result) {
+    public Var(String id, String text, String moveTo, String damage) {
         this.id = id;
         this.text = text;
         this.moveTo = moveTo;

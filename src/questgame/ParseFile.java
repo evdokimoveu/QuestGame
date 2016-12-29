@@ -48,8 +48,8 @@ public class ParseFile {
         for(int i = 0; i < actions.size(); i++){
             Element elAction = actions.get(i);
             Action action = new Action(
-                    elAction.getAttributeValue("id"),
-                    elAction.getAttributeValue("text"),
+                    elAction.getAttributeValue("id").trim(),
+                    elAction.getAttributeValue("text").trim(),
                     getVarMap(elAction.getChildren())
             );
             mapAction.put(elAction.getAttributeValue("id"), action);
@@ -63,11 +63,11 @@ public class ParseFile {
             for(int i = 0; i < vars.size(); i++){
                 Element elVar = vars.get(i);
                 Var var = new Var(
-                        elVar.getAttributeValue("id"),
-                        elVar.getText(),
-                        elVar.getAttributeValue("move_to"),
-                        elVar.getAttributeValue("damage"),
-                        elVar.getAttributeValue("result"));
+                        elVar.getAttributeValue("id").trim(),
+                        elVar.getText().trim(),
+                        elVar.getAttributeValue("move_to").trim(),
+                        elVar.getAttributeValue("damage").trim()
+                );
                 mapVar.put(elVar.getAttributeValue("id"), var);
             }
         }        

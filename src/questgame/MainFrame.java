@@ -4,7 +4,6 @@ package questgame;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Map;
 import java.util.Scanner;
@@ -16,24 +15,26 @@ import java.util.Scanner;
 public class MainFrame extends javax.swing.JFrame {
 
     
-    private Map<String, File> mapFiles;
-    private Dimension screenSize;
+    private final Map<String, File> mapFiles;
+    private final Dimension screenSize;
+    private final Dimension frameSize;
     
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
-        setTitle("Симулятор выживания в больнице.");
+        
         
         initComponents();
-        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension frameSize = getSize();
-        setLocation(new Point((screenSize.width-frameSize.width)/2, (screenSize.height-frameSize.height)/2));
+        super.setTitle("Симулятор выживания в больнице.");
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();        
+        frameSize = super.getSize();
+        super.setLocation(new Point((screenSize.width-frameSize.width)/2, (screenSize.height-frameSize.height)/2));
         
         mapFiles = LoadFile.loadFile();
         if(mapFiles.size() > 0){
-            Game game = new Game(mapFiles);
-            //game.start();
+            Game game = new Game(mapFiles, gameWindow, userAnswer, errorMessage);
+            game.start();
         }
         else{
             System.err.println("Error. Cann't find files.");
@@ -56,20 +57,24 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         gameWindow = new javax.swing.JTextArea();
         userAnswer = new javax.swing.JTextField();
+        errorMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
         gameWindow.setEditable(false);
         gameWindow.setColumns(20);
+        gameWindow.setLineWrap(true);
         gameWindow.setRows(5);
+        gameWindow.setWrapStyleWord(true);
         jScrollPane1.setViewportView(gameWindow);
 
         userAnswer.setToolTipText("");
-        userAnswer.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                userAnswerKeyPressed(evt);
-            }
-        });
+
+        errorMessage.setForeground(new java.awt.Color(255, 0, 51));
+        errorMessage.setText("*");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,31 +84,24 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
-                    .addComponent(userAnswer))
+                    .addComponent(userAnswer)
+                    .addComponent(errorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(errorMessage)
+                .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void userAnswerKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userAnswerKeyPressed
-        // Press enter
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            String answer = userAnswer.getText();
-            if(!answer.isEmpty()){
-                
-            }
-        }
-    }//GEN-LAST:event_userAnswerKeyPressed
 
     /**
      * @param args the command line arguments
@@ -121,19 +119,16 @@ public class MainFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new MainFrame().setVisible(true);
             }
@@ -141,6 +136,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errorMessage;
     private javax.swing.JTextArea gameWindow;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField userAnswer;
