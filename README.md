@@ -3,7 +3,8 @@ xml files need put into "game" folder
 
 
 
-XML format: 
+XML format:
+<?xml version="1.0" encoding="utf-8"?>
 <file id="1" type="file" name="1_game.xml">
 	<action id="1" type="action" text="">
 		<var id="1" move_to="f1a2" damage="">
