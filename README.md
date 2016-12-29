@@ -17,6 +17,9 @@ XML format:
 ```
 
 File number = file id. 
+
 Action without vars signals about game finish. 
+
 Vars id into one action must be unique.
+
 Actions id into one file must be unique.
